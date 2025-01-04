@@ -21,6 +21,7 @@ import {
   PiStarFill,
   PiWarningCircleFill,
 } from 'react-icons/pi';
+import { IoMoonSharp, IoSunnyOutline } from "react-icons/io5";
 import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
 import SwitchBedrockModel from '../components/SwitchBedrockModel';
@@ -54,6 +55,8 @@ import {
 } from '../@types/conversation.ts';
 import { AVAILABLE_MODEL_KEYS } from '../constants/index'
 import usePostMessageStreaming from '../hooks/usePostMessageStreaming.ts';
+import Toggle from '../components/Toggle.tsx';
+import useLocalStorage from '../hooks/useLocalStorage.ts';
 
 // Default model activation settings when no bot is selected
 const defaultActiveModels: ActiveModels = (() => {
@@ -67,6 +70,28 @@ const ChatPage: React.FC = () => {
   const navigate = useNavigate();
   const { open: openSnackbar } = useSnackbar();
   const { errorDetail } = usePostMessageStreaming();
+  const [theme, setTheme] = useLocalStorage(
+    'theme',
+    'light'
+  );
+  // If you want to add a theme, change the type from boolean to string and change the UI from toggle to pulldown.
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  useEffect(() => {
+    if (theme === 'dark') {
+      setIsDarkTheme(true);
+    }
+  }, [theme]);
+
+  const changeTheme = (isDarkTheme: boolean) => {
+    setIsDarkTheme(isDarkTheme);
+    if (isDarkTheme) {
+      document.documentElement.className = 'dark';
+      setTheme('dark');
+    } else {
+      document.documentElement.className = 'light';
+      setTheme('light');
+    }
+  };
 
   const {
     agentThinking,
@@ -438,19 +463,50 @@ const ChatPage: React.FC = () => {
       onDrop={endDnd}
       onDragEnd={endDnd}>
       <div className="flex-1 overflow-hidden">
-        <div className="sticky top-0 z-10 mb-1.5 flex h-14 w-full items-center justify-between border-b border-gray bg-aws-paper p-2">
+        <div className="sticky top-0 z-10 mb-1.5 flex h-14 w-full items-center justify-between border-b border-gray bg-aws-paper-light dark:bg-aws-paper-dark p-2">
           <div className="flex w-full justify-between">
             <div className="p-2">
               <div className="mr-10 font-bold">{pageTitle}</div>
-              <div className="text-xs font-thin text-dark-gray">
+              <div className="text-xs font-thin text-dark-gray dark:text-light-gray">
                 {description}
               </div>
             </div>
 
+            <div className="flex items-center gap-2">
+              {isDarkTheme ? (
+                <>
+                  <IoMoonSharp />
+                </>
+              ): (
+                <>
+                  <IoSunnyOutline />
+                </>
+              )}
+              <Toggle
+                value={isDarkTheme}
+                onChange={(isDarkTheme) => changeTheme(isDarkTheme)}
+              />
+            </div>
+
             {isAvailabilityBot && (
               <div className="absolute -top-1 right-0 flex h-full items-center">
-                <div className="h-full w-5 bg-gradient-to-r from-transparent to-aws-paper"></div>
-                <div className="flex items-center bg-aws-paper">
+                <div className="flex items-center gap-2">
+                  {isDarkTheme ? (
+                    <>
+                      <IoMoonSharp />
+                    </>
+                  ): (
+                    <>
+                      <IoSunnyOutline />
+                    </>
+                  )}
+                  <Toggle
+                    value={isDarkTheme}
+                    onChange={(isDarkTheme) => changeTheme(isDarkTheme)}
+                  />
+                </div>
+                <div className="h-full bg-gradient-to-r from-transparent to-aws-paper-light dark:to-aws-paper-dark"></div>
+                <div className="flex items-center bg-aws-paper-light dark:bg-aws-paper-dark">
                   {bot?.owned && (
                     <StatusSyncBot
                       syncStatus={bot.syncStatus}
@@ -491,7 +547,7 @@ const ChatPage: React.FC = () => {
             )}
           </div>
           {getPostedModel() && (
-            <div className="absolute right-2 top-10 text-xs text-dark-gray">
+            <div className="absolute right-2 top-10 text-xs text-dark-gray dark:text-light-gray">
               model: {getPostedModel()}
             </div>
           )}
@@ -518,7 +574,7 @@ const ChatPage: React.FC = () => {
                     <div
                       key={idx}
                       className={`${
-                        message.role === 'assistant' ? 'bg-aws-squid-ink/5' : ''
+                        message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/35' : ''
                       }`}>
                       <ChatMessageWithRelatedDocuments
                         chatContent={message}
@@ -531,7 +587,7 @@ const ChatPage: React.FC = () => {
                           }
                         }}
                       />
-                      <div className="w-full border-b border-aws-squid-ink/10"></div>
+                      <div className="w-full border-b border-aws-squid-ink-light/10 dark:border-aws-squid-ink-dark/10"></div>
                     </div>
                   ))}
                 </>
@@ -577,7 +633,7 @@ const ChatPage: React.FC = () => {
             {bot?.conversationQuickStarters?.map((qs, idx) => (
               <div
                 key={idx}
-                className="w-[calc(33.333%-0.5rem)] cursor-pointer rounded-2xl border border-aws-squid-ink/20 bg-white p-2  text-sm text-dark-gray  hover:shadow-lg hover:shadow-gray"
+                className="w-[calc(33.333%-0.5rem)] cursor-pointer rounded-2xl border border-aws-squid-ink-light/20 dark:border-aws-squid-ink-dark/20 bg-white p-2  text-sm text-dark-gray dark:text-light-gray  hover:shadow-lg hover:shadow-gray"
                 onClick={() => {
                   onSend(qs.example);
                 }}>

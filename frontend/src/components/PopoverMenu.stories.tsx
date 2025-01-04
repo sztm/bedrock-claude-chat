@@ -15,7 +15,7 @@ export const ChatHeader = () => {
   const { t } = useTranslation();
   const [isPinned, togglePinned] = useReducer(current => !current, true);
   return (
-    <div className="flex items-center bg-aws-paper">
+    <div className="flex items-center bg-aws-paper-light dark:bg-aws-paper-dark">
       <StatusSyncBot
         syncStatus='SUCCEEDED'
         onClickError={() => {}}

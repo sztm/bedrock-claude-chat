@@ -288,7 +288,7 @@ const ToolCard: React.FC<ToolCardProps> = ({
                 {displayDocuments.length == 1 && (
                   <div className="flex items-center space-x-2">
                     <a
-                      className="flex items-center cursor-pointer text-aws-sea-blue hover:text-aws-sea-blue-hover"
+                      className="flex items-center cursor-pointer text-aws-sea-blue-light dark:text-aws-sea-blue-dark hover:text-aws-sea-blue-hover-light dark:hover:text-aws-sea-blue-hover-dark"
                       onClick={() => setViewingRelatedDocument(displayDocuments[0])}
                     >
                       <PiLinkBold />
@@ -301,7 +301,7 @@ const ToolCard: React.FC<ToolCardProps> = ({
                 {displayDocuments.length > 1 && displayDocuments.map((document, index) => (
                   <div key={document.sourceId} className="flex items-center space-x-2">
                     <a
-                      className="flex items-center cursor-pointer text-aws-sea-blue hover:text-aws-sea-blue-hover"
+                      className="flex items-center cursor-pointer text-aws-sea-blue-light dark:text-aws-sea-blue-dark hover:text-aws-sea-blue-hover-light dark:hover:text-aws-sea-blue-hover-dark"
                       onClick={() => setViewingRelatedDocument(document)}
                     >
                       <div>{`[${index + 1}]`}</div>

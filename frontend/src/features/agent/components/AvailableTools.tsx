@@ -32,7 +32,7 @@ export const AvailableTools = ({ availableTools, tools, setTools }: Props) => {
         <Help direction={TooltipDirection.RIGHT} message={t('agent.hint')} />
       </div>
 
-      <div className="text-sm text-aws-font-color/50">
+      <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
         {t('agent.help.overview')}
       </div>
       {availableTools === undefined && <Skeleton className="h-12 w-full" />}
@@ -43,7 +43,7 @@ export const AvailableTools = ({ availableTools, tools, setTools }: Props) => {
             value={!!tools?.map(({ name }) => name).includes(tool.name)}
             onChange={handleChangeTool(tool)}
           />
-          <div className="whitespace-pre-wrap text-sm text-aws-font-color/50">
+          <div className="whitespace-pre-wrap text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
             {formatDescription(tool, t)}
           </div>
         </div>

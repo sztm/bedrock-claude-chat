@@ -54,10 +54,10 @@ const DialogShareBot: React.FC<Props> = (props) => {
       </div>
 
       {isShared && (
-        <div className="mt-3 flex justify-between rounded border border-aws-squid-ink/50 bg-aws-paper">
+        <div className="mt-3 flex justify-between rounded border border-aws-squid-ink-light/50 dark:border-aws-squid-ink-dark/50 bg-aws-paper-light dark:bg-aws-paper-dark">
           <input
             type="text"
-            className="my-2 ml-2 w-full bg-aws-paper"
+            className="my-2 ml-2 w-full bg-aws-paper-light dark:bg-aws-paper-dark"
             readOnly
             value={url}
           />
