@@ -28,7 +28,7 @@ export const AvailableTools = ({ availableTools, tools, setTools }: Props) => {
   return (
     <>
       <div className="flex items-center gap-1">
-        <div className="text-lg font-bold">{t('agent.label')}</div>
+        <div className="text-lg font-bold dark:text-aws-font-color-dark">{t('agent.label')}</div>
         <Help direction={TooltipDirection.RIGHT} message={t('agent.hint')} />
       </div>
 

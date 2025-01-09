@@ -33,16 +33,24 @@ const ListItemBot: React.FC<Props> = (props) => {
           }
         }}>
         <div className="w-full overflow-hidden text-ellipsis text-sm font-semibold">
-          {props.bot.title}
+          <span
+            className={
+              props.bot.available
+                ? 'dark:text-aws-font-color-dark'
+                : 'dark:text-aws-font-color-gray'
+            }
+          >
+            {props.bot.title}
+          </span>
         </div>
         {props.bot.description ? (
-          <div className="mt-1 overflow-hidden text-ellipsis text-xs">
+          <div className="mt-1 overflow-hidden text-ellipsis text-xs dark:text-aws-font-color-dark">
             {props.bot.available
               ? props.bot.description
               : t('bot.label.notAvailable')}
           </div>
         ) : (
-          <div className="mt-1 overflow-hidden text-ellipsis text-xs italic text-gray">
+          <div className="mt-1 overflow-hidden text-ellipsis text-xs italic text-gray dark:text-aws-font-color-gray">
             {t('bot.label.noDescription')}
           </div>
         )}
@@ -50,7 +58,7 @@ const ListItemBot: React.FC<Props> = (props) => {
 
       <div className="absolute right-0 flex h-full justify-between">
         <div className="w-10 bg-gradient-to-r from-transparent to-aws-paper-light dark:to-aws-paper-dark"></div>
-        <div className="flex items-center gap-2 bg-aws-paper-light dark:bg-aws-paper-dark pl-2">
+        <div className="flex items-center gap-2 bg-aws-paper-light dark:bg-aws-paper-dark dark:text-aws-font-color-dark pl-2">
           {props.children}
         </div>
       </div>

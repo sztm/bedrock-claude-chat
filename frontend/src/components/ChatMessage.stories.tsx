@@ -67,7 +67,7 @@ export const Conversation = () => {
         <div
           key={idx}
           className={`${
-            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : ''
+            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : 'dark:text-aws-font-color-dark'
           }`}>
           <ChatMessage
             chatContent={message}
@@ -123,7 +123,7 @@ export const ConversationThinking = () => {
         <div
           key={idx}
           className={`${
-            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : ''
+            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : 'dark:text-aws-font-color-dark'
           }`}>
           <ChatMessage
             chatContent={message}
@@ -272,7 +272,7 @@ export const ConversationWithAgnet = () => {
         <div
           key={idx}
           className={`${
-            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : ''
+            message.role === 'assistant' ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/5' : 'dark:text-aws-font-color-dark'
           }`}>
           <ChatMessage
             chatContent={message}

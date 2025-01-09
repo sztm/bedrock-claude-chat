@@ -40,7 +40,7 @@ export const Slider: FC<Props> = (props) => {
       <label
         className={twMerge(
           'text-sm text-dark-gray dark:text-light-gray',
-          props.errorMessage && 'border-red text-red'
+          props.errorMessage && 'border-red dark:border-red text-red dark:text-red'
         )}>
         {props.label}
       </label>
@@ -62,8 +62,8 @@ export const Slider: FC<Props> = (props) => {
           className={twMerge(
             'peer h-9 w-16 rounded border p-1 text-center',
             props.errorMessage
-              ? 'border-2 border-red'
-              : 'dark:bg-aws-ui-color-dark border-aws-font-color-light/50 dark:border-aws-font-color-dark'
+              ? 'dark:bg-aws-ui-color-dark border-2 border-red dark:text-aws-font-color-dark'
+              : 'dark:bg-aws-ui-color-dark border-aws-font-color-light/50 dark:border-aws-font-color-dark dark:text-aws-font-color-dark'
           )}
           value={value}
           max={props.range.max}

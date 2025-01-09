@@ -27,7 +27,7 @@ export const ChatHeader = () => {
           <PiStar />
         )}
       </ButtonIcon>
-      <ButtonPopover className="mx-1" target="bottom-right">
+      <ButtonPopover className="mx-1 dark:text-aws-font-color-dark" target="bottom-right">
         <PopoverItem onClick={() => {}}>
           <PiPencilLine />
           {t('bot.titleSubmenu.edit')}

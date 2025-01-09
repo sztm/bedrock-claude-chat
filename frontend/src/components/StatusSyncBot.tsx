@@ -22,7 +22,7 @@ const StatusSyncBot: React.FC<Props> = (props) => {
       <div>
         {(props.syncStatus === SyncStatus.QUEUED ||
           props.syncStatus === SyncStatus.RUNNING) && (
-          <PiSpinnerBold className="animate-spin text-aws-squid-ink-light dark:text-aws-squid-ink-dark" />
+          <PiSpinnerBold className="animate-spin text-aws-squid-ink-light dark:text-white" />
         )}
         {props.syncStatus === SyncStatus.SUCCEEDED && (
           <PiCheckCircleBold className="text-aws-aqua" />

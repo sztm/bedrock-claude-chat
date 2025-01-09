@@ -21,7 +21,6 @@ import {
   PiStarFill,
   PiWarningCircleFill,
 } from 'react-icons/pi';
-import { IoMoonSharp, IoSunnyOutline } from "react-icons/io5";
 import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
 import SwitchBedrockModel from '../components/SwitchBedrockModel';
@@ -55,8 +54,6 @@ import {
 } from '../@types/conversation.ts';
 import { AVAILABLE_MODEL_KEYS } from '../constants/index'
 import usePostMessageStreaming from '../hooks/usePostMessageStreaming.ts';
-import Toggle from '../components/Toggle.tsx';
-import useLocalStorage from '../hooks/useLocalStorage.ts';
 
 // Default model activation settings when no bot is selected
 const defaultActiveModels: ActiveModels = (() => {
@@ -70,28 +67,6 @@ const ChatPage: React.FC = () => {
   const navigate = useNavigate();
   const { open: openSnackbar } = useSnackbar();
   const { errorDetail } = usePostMessageStreaming();
-  const [theme, setTheme] = useLocalStorage(
-    'theme',
-    'light'
-  );
-  // If you want to add a theme, change the type from boolean to string and change the UI from toggle to pulldown.
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  useEffect(() => {
-    if (theme === 'dark') {
-      setIsDarkTheme(true);
-    }
-  }, [theme]);
-
-  const changeTheme = (isDarkTheme: boolean) => {
-    setIsDarkTheme(isDarkTheme);
-    if (isDarkTheme) {
-      document.documentElement.className = 'dark';
-      setTheme('dark');
-    } else {
-      document.documentElement.className = 'light';
-      setTheme('light');
-    }
-  };
 
   const {
     agentThinking,
@@ -472,39 +447,8 @@ const ChatPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {isDarkTheme ? (
-                <>
-                  <IoMoonSharp />
-                </>
-              ): (
-                <>
-                  <IoSunnyOutline />
-                </>
-              )}
-              <Toggle
-                value={isDarkTheme}
-                onChange={(isDarkTheme) => changeTheme(isDarkTheme)}
-              />
-            </div>
-
             {isAvailabilityBot && (
               <div className="absolute -top-1 right-0 flex h-full items-center">
-                <div className="flex items-center gap-2">
-                  {isDarkTheme ? (
-                    <>
-                      <IoMoonSharp />
-                    </>
-                  ): (
-                    <>
-                      <IoSunnyOutline />
-                    </>
-                  )}
-                  <Toggle
-                    value={isDarkTheme}
-                    onChange={(isDarkTheme) => changeTheme(isDarkTheme)}
-                  />
-                </div>
                 <div className="h-full bg-gradient-to-r from-transparent to-aws-paper-light dark:to-aws-paper-dark"></div>
                 <div className="flex items-center bg-aws-paper-light dark:bg-aws-paper-dark">
                   {bot?.owned && (
