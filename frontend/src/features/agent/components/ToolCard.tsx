@@ -209,7 +209,7 @@ const ToolCard: React.FC<ToolCardProps> = ({
   return (
     <div className={twMerge('relative', className)}>
       <div
-        className="flex cursor-pointer items-center justify-between p-2 dark:text-aws-font-color-dark hover:bg-light-gray dark:hover:bg-aws-ui-color-dark"
+        className="flex cursor-pointer items-center justify-between p-2 dark:text-aws-font-color-dark hover:bg-light-gray dark:hover:bg-aws-font-color-dark/10"
         onClick={handleToggleExpand}>
         <div className="flex items-center text-base">
           {status === 'running' && (

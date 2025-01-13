@@ -31,7 +31,7 @@ const Select: React.FC<Props> = (props) => {
     <div className={props.className}>
       {props.label && (
         <div>
-          <span className="text-sm">{props.label}</span>
+          <span className="text-sm dark:text-aws-font-color-dark">{props.label}</span>
         </div>
       )}
       <Listbox

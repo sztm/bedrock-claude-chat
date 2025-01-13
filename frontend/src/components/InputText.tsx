@@ -19,7 +19,7 @@ const InputText: React.FC<Props> = (props) => {
       <input
         type={props.type ?? 'text'}
         className={twMerge(
-          'peer h-9 rounded border p-1',
+          'peer h-9 rounded border p-1 dark:[color-scheme:dark]',
           'dark:bg-aws-ui-color-dark dark:placeholder-aws-font-color-gray dark:text-aws-font-color-dark',
           props.errorMessage
             ? 'border-2 border-red'

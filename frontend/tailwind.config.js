@@ -25,7 +25,7 @@ export default {
         },
         'aws-sea-blue-hover': {
           light: '#003550',
-          dark: '#303030',
+          dark: '#5b5b5b',
         },
         'aws-aqua': '#007faa',
         'aws-lab': '#38ef7d',

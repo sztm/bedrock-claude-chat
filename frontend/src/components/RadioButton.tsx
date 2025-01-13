@@ -17,7 +17,7 @@ type Props = BaseProps & {
 
 const variantStyles: Record<RadioButtonVariant, string> = {
   default: 'border-aws-font-color-light/50 dark:border-aws-font-color-dark/50 after:bg-aws-sea-blue-light dark:after:bg-aws-sea-blue-dark',
-  outlined: 'border-gray-300 after:bg-aws-sea-blue-light dark:after:bg-aws-sea-blue-dark',
+  outlined: 'border-gray-300 dark:border-aws-font-color-dark after:bg-aws-sea-blue-light dark:after:bg-aws-sea-blue-dark',
   colored: 'border-aws-sea-blue-light dark:border-aws-sea-blue-dark after:bg-aws-sea-blue-light dark:after:bg-aws-sea-blue-dark',
 };
 
@@ -70,7 +70,7 @@ const RadioButton: React.FC<Props> = ({
         </div>
         {label && (
           <div className="grow">
-            <div className="text-sm">{label}</div>
+            <div className="text-sm dark:text-aws-font-color-dark">{label}</div>
           </div>
         )}
       </label>
