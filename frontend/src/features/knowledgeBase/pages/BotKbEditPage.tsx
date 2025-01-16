@@ -1451,7 +1451,7 @@ const BotKbEditPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="text-sm text-aws-font-color/50">
+                <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                   {t('bot.help.knowledge.overview')}
                 </div>
 
@@ -1475,7 +1475,7 @@ const BotKbEditPage: React.FC = () => {
                 {(() => {
                   if (knowledgeBaseType === 'existing') {
                     return (
-                      <div className="mt-3 p-4 border border-aws-font-color/30 rounded-lg">
+                      <div className="mt-3 p-4 border border-aws-font-color-light/30 dark:border-aws-font-color-dark/30 rounded-lg">
                         <InputText
                           label={t('knowledgeBaseSettings.advancedConfigration.existKnowledgeBaseId.label')}
                           value={existKnowledgeBaseId ?? ''}
@@ -1483,7 +1483,7 @@ const BotKbEditPage: React.FC = () => {
                           disabled={!isNewBot}
                           placeholder='ABCDEFGHIJ'
                         />
-                        <div className="text-sm text-aws-font-color/50">
+                        <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                           {t('knowledgeBaseSettings.advancedConfigration.existKnowledgeBaseId.description')}
                         </div>
                       </div>
@@ -1506,10 +1506,10 @@ const BotKbEditPage: React.FC = () => {
 
               if (knowledgeBaseType === 'new') {
                 return (
-                  <div className="mt-3 p-4 border border-aws-font-color/30 rounded-lg">
+                  <div className="mt-3 p-4 border border-aws-font-color-light/30 dark:border-aws-font-color-dark/30 rounded-lg">
                     <div className="mt-3">
                       <div className="font-semibold">{t('bot.label.file')}</div>
-                      <div className="text-sm text-aws-font-color/50">
+                      <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                         {t('bot.help.knowledge.file')}
                       </div>
                       <div className="mt-2 flex w-full flex-col gap-1">
@@ -1527,7 +1527,7 @@ const BotKbEditPage: React.FC = () => {
 
                     <div className="mt-4">
                       <div className="font-semibold">{t('bot.label.s3url')}</div>
-                      <div className="text-sm text-aws-font-color/50">
+                      <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                         {t('bot.help.knowledge.s3url')}
                       </div>
                       <div className="mt-2 flex w-full flex-col gap-1">
@@ -1568,7 +1568,7 @@ const BotKbEditPage: React.FC = () => {
 
                     <div className="mt-4">
                       <div className="font-semibold">{t('bot.label.url')}</div>
-                      <div className="text-sm text-aws-font-color/50">
+                      <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                         {t('bot.help.knowledge.url')}
                       </div>
                       <div className="mt-2 flex w-full flex-col gap-1">
@@ -1628,7 +1628,7 @@ const BotKbEditPage: React.FC = () => {
                               'knowledgeBaseSettings.webCrawlerConfig.includePatterns.label'
                             )}
                           </div>
-                          <div className="text-sm text-aws-font-color/50">
+                          <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                             {t(
                               'knowledgeBaseSettings.webCrawlerConfig.includePatterns.hint'
                             )}
@@ -1680,7 +1680,7 @@ const BotKbEditPage: React.FC = () => {
                               'knowledgeBaseSettings.webCrawlerConfig.excludePatterns.label'
                             )}
                           </div>
-                          <div className="text-sm text-aws-font-color/50">
+                          <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                             {t(
                               'knowledgeBaseSettings.webCrawlerConfig.excludePatterns.hint'
                             )}
@@ -1741,7 +1741,7 @@ const BotKbEditPage: React.FC = () => {
                       value={displayRetrievedChunks}
                       onChange={setDisplayRetrievedChunks}
                     />
-                    <div className="whitespace-pre-wrap text-sm text-aws-font-color/50">
+                    <div className="whitespace-pre-wrap text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                       {t('bot.help.knowledge.citeRetrievedContexts')}
                     </div>
                   </div>
@@ -1755,7 +1755,7 @@ const BotKbEditPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="text-sm text-aws-font-color/50">
+                <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                   {t('bot.help.quickStarter.overview')}
                 </div>
 
@@ -1764,7 +1764,7 @@ const BotKbEditPage: React.FC = () => {
                     {conversationQuickStarters.map(
                       (conversationQuickStarter, idx) => (
                         <div
-                          className="flex w-full flex-col gap-2 rounded border border-aws-font-color/50 p-2"
+                          className="flex w-full flex-col gap-2 rounded border border-aws-font-color-light/50 dark:border-aws-font-color-dark/50 p-2"
                           key={idx}>
                           <InputText
                             className="w-full"
@@ -1858,7 +1858,7 @@ const BotKbEditPage: React.FC = () => {
                 isDefaultShow={false}
                 label={t('knowledgeBaseSettings.title')}
                 className="py-2">
-                <div className="text-sm text-aws-font-color/50">
+                <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                   {t('knowledgeBaseSettings.description')}
                 </div>
 
@@ -1884,7 +1884,7 @@ const BotKbEditPage: React.FC = () => {
                     }}
                     disabled={!isNewBot}
                   />
-                  <div className="text-sm text-aws-font-color/50">
+                  <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                     {t('knowledgeBaseSettings.advancedParsing.hint')}
                   </div>
                 </div>
@@ -2202,7 +2202,7 @@ const BotKbEditPage: React.FC = () => {
                       }}
                       className="mt-2"
                     />
-                    <div className="text-sm text-aws-font-color/50">
+                    <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                       {t('knowledgeBaseSettings.opensearchAnalyzer.hint')}
                     </div>
                   </div>
@@ -2212,12 +2212,12 @@ const BotKbEditPage: React.FC = () => {
                     <div className="text-sm">
                       {t('knowledgeBaseSettings.opensearchAnalyzer.label')}
                     </div>
-                    <div className="text-sm text-aws-font-color/50">
+                    <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                       {t('knowledgeBaseSettings.opensearchAnalyzer.hint')}
                     </div>
                     <div
                       className="grid grid-cols-[auto_1fr] gap-2 rounded 
-                      border border-aws-font-color/50 p-4 text-sm">
+                      border border-aws-font-color-light/50 dark:border-aws-font-color-dark/50 p-4 text-sm">
                       <div>
                         {t(
                           'knowledgeBaseSettings.opensearchAnalyzer.tokenizer'
@@ -2260,7 +2260,7 @@ const BotKbEditPage: React.FC = () => {
                 isDefaultShow={false}
                 label={t('searchSettings.title')}
                 className="py-2">
-                <div className="text-sm text-aws-font-color/50">
+                <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                   {t('searchSettings.description')}
                 </div>
                 <div className="mt-3">
@@ -2443,7 +2443,7 @@ const BotKbEditPage: React.FC = () => {
                 isDefaultShow={false}
                 label={t('bot.activeModels.title')}
                 className="py-2">
-                <div className="text-sm text-aws-font-color/50">
+                <div className="text-sm text-aws-font-color-light/50 dark:text-aws-font-color-dark">
                   {t('bot.activeModels.description')}
                 </div>
 
@@ -2461,7 +2461,7 @@ const BotKbEditPage: React.FC = () => {
                         />
                         <div>
                           <div>{label}</div>
-                          <div className="text-sm text-dark-gray">{description}</div>
+                          <div className="text-sm text-dark-gray dark:text-light-gray">{description}</div>
                         </div>
                       </div>
                     ))}
