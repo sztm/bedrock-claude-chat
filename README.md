@@ -294,6 +294,28 @@ This is an account/region-level setting, affecting the entire application rather
 "enableLambdaSnapStart": false
 ```
 
+### Configure Custom Domain
+
+You can configure a custom domain for the CloudFront distribution by setting the following parameters in [cdk.json](./cdk/cdk.json):
+
+```json
+{
+  "alternateDomainName": "chat.example.com",
+  "hostedZoneId": "Z0123456789ABCDEF"
+}
+```
+
+- `alternateDomainName`: The custom domain name for your chat application (e.g., chat.example.com)
+- `hostedZoneId`: The ID of your Route 53 hosted zone where the domain records will be created
+
+When these parameters are provided, the deployment will automatically:
+- Create an ACM certificate with DNS validation in us-east-1 region
+- Create the necessary DNS records in your Route 53 hosted zone
+- Configure CloudFront to use your custom domain
+
+> [!Note]
+> The domain must be managed by Route 53 in your AWS account. The hosted zone ID can be found in the Route 53 console.
+
 ### Local Development
 
 See [LOCAL DEVELOPMENT](./docs/LOCAL_DEVELOPMENT.md).
@@ -327,3 +349,4 @@ Please also take a look at the following guidelines before contributing:
 ## License
 
 This library is licensed under the MIT-0 License. See [the LICENSE file](./LICENSE).
+
