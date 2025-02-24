@@ -1,37 +1,4 @@
 #!/bin/bash
-echo "############################################################################"
-echo "###                                                                      ###"
-echo "###           ⚠️  Caution: A Whole New World with v2.x Awaits!  ⚠️          ###"
-echo "###                                                                      ###"
-echo "###  🚨 v2.x is NOT compatible with any older versions like v1.x or below. 🚨  ###"
-echo "###  You must read the migration guide carefully before proceeding:       ###"
-echo "###  https://github.com/aws-samples/bedrock-claude-chat/blob/v2/docs/migration/V1_TO_V2.md  ###"
-echo "###                                                                      ###"
-echo "###  This isn't just a regular upgrade. Data preservation requires        ###"
-echo "###  following specific steps, or you may risk CUSTOMIZED BOT LOSS.      ###"
-echo "###                                                                      ###"
-echo "###  💡 This script is only for new users or those already on v2.x.        ###"
-echo "###  If that's you, let's get started! Otherwise, check the guide first.  ###"
-echo "###                                                                      ###"
-echo "############################################################################"
-echo ""
-while true; do
-    read -p "Are you ready to explore the world of v2.x? (y/N): " answer
-    case ${answer:0:1} in
-        y|Y )
-            echo "Buckle up! Starting deployment for v2.x..."
-            break
-            ;;
-        n|N )
-            echo "Whoa, hold on! This script is only for v2.x users. Please refer to the migration guide if you're coming from an older version."
-            exit 1
-            ;;
-        * )
-            echo "Let's keep it simple. Please enter y or n."
-            ;;
-    esac
-done
-
 
 # Default parameters
 ALLOW_SELF_REGISTER="true"
