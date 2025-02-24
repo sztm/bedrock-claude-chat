@@ -32,6 +32,7 @@ jobs:
           --disable-self-register \
           --bedrock-region "${{ env.AWS_REGION }}" \
           --repo-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+          --version $GITHUB_REF_NAME \
           --cdk-json-override '{
             "context": {
               "alternateDomainName": "${{ secrets.ALT_HOST_NAME }}",
