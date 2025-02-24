@@ -33,7 +33,7 @@ jobs:
           --bedrock-region "${{ env.AWS_REGION }}" \
           --cdk-json-override '{
             "context": {
-              "alternateDomainName": "${{ secrets.ALT_HOST_NAME }}"
+              "alternateDomainName": "${{ secrets.ALT_HOST_NAME }}",
               "hostedZoneId": "${{ secrets.AWS_HOSTED_ZONE_ID }}"
             }
           }'
