@@ -298,12 +298,14 @@ def get_model_id(
         "amazon-nova-micro",
     }
 
+    # FIXME: This mapping is not strict
     supported_region_prefixes = {
         "us-east-1": "us",
         "us-west-2": "us",
         "eu-west-1": "eu",
         "eu-central-1": "eu",
         "eu-west-3": "eu",
+        "ap-northeast-1": "apac",
     }
 
     base_model_id = base_model_ids.get(model)
