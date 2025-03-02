@@ -3,7 +3,7 @@ name: Frontend tests
 on:
   push:
     branches:
-      - v2
+      - main
   workflow_dispatch: {}
 
 jobs:
