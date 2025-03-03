@@ -74,12 +74,23 @@ class KnowledgeModel(BaseModel):
         return f"{_source_urls}{_sitemap_urls}{_filenames}{_s3_urls}"
 
 
+class ReasoningParamsModel(BaseModel):
+    budget_tokens: int
+
+    @field_validator("budget_tokens")
+    def validate_budget_tokens(cls, v: int) -> int:
+        if v < 1024:
+            raise ValueError("budget_tokens must be greater than or equal to 1024")
+        return v
+
+
 class GenerationParamsModel(BaseModel):
     max_tokens: int
     top_k: int
     top_p: Float
     temperature: Float
     stop_sequences: list[str]
+    reasoning_params: ReasoningParamsModel
 
 
 class FirecrawlConfigModel(BaseModel):

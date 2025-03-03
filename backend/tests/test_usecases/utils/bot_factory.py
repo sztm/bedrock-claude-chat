@@ -12,7 +12,7 @@ from app.repositories.models.custom_bot import (
     GenerationParamsModel,
     InternetToolModel,
     KnowledgeModel,
-    ToolModel,
+    ReasoningParamsModel,
 )
 
 
@@ -39,11 +39,14 @@ def create_test_private_bot(
         public_bot_id=None,
         owner_user_id=owner_user_id,
         generation_params=GenerationParamsModel(
-            max_tokens=2000,
+            max_tokens=20000,
             top_k=250,
             top_p=0.999,
-            temperature=0.6,
+            temperature=1.0,
             stop_sequences=["Human: ", "Assistant: "],
+            reasoning_params=ReasoningParamsModel(
+                budget_tokens=1024,
+            ),
         ),
         agent=AgentModel(
             tools=(
@@ -110,6 +113,9 @@ def create_test_public_bot(
             top_p=0.999,
             temperature=0.6,
             stop_sequences=["Human: ", "Assistant: "],
+            reasoning_params=ReasoningParamsModel(
+                budget_tokens=1024,
+            ),
         ),
         agent=AgentModel(
             # tools=[

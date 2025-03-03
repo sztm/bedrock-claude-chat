@@ -111,6 +111,10 @@ const BotKbEditPage: React.FC = () => {
   const [stopSequences, setStopSequences] = useState<string>(
     defaultGenerationConfig.stopSequences?.join(',') || ''
   );
+  const [budgetTokens, setBudgetTokens] = useState<number>(
+    defaultGenerationConfig.reasoningParams?.budgetTokens ??
+      EDGE_GENERATION_PARAMS.budgetTokens.MIN
+  );
   const [tools, setTools] = useState<AgentTool[]>([]);
   const [conversationQuickStarters, setConversationQuickStarters] = useState<
     ConversationQuickStarter[]
@@ -487,6 +491,7 @@ const BotKbEditPage: React.FC = () => {
           setTemperature(bot.generationParams.temperature);
           setMaxTokens(bot.generationParams.maxTokens);
           setStopSequences(bot.generationParams.stopSequences.join(','));
+          setBudgetTokens(bot.generationParams.reasoningParams.budgetTokens);
           setUnchangedFilenames([...bot.knowledge.filenames]);
           setDisplayRetrievedChunks(bot.displayRetrievedChunks);
           if (bot.syncStatus === 'FAILED') {
@@ -867,6 +872,29 @@ const BotKbEditPage: React.FC = () => {
     [setErrorMessages, t]
   );
 
+  const isValidBudgetTokens = useCallback(
+    (value: number) => {
+      if (value < EDGE_GENERATION_PARAMS.budgetTokens.MIN) {
+        setErrorMessages(
+          'budgetTokens',
+          t('validation.minRange.message', {
+            size: EDGE_GENERATION_PARAMS.budgetTokens.MIN,
+          })
+        );
+        return false;
+      } else if (value > maxTokens) {
+        setErrorMessages(
+          'budgetTokens',
+          t('validation.maxBudgetTokens.message', {
+            size: maxTokens,
+          })
+        );
+        return false;
+      }
+      return true;
+    },
+    [setErrorMessages, t, maxTokens]
+  );
   const isToolValid = useCallback((): boolean => {
     clearErrorMessages();
 
@@ -1148,6 +1176,10 @@ const BotKbEditPage: React.FC = () => {
       return false;
     }
 
+    if (!isValidBudgetTokens(budgetTokens)) {
+      return false;
+    }
+
     return (
       isValidGenerationConfigParam(maxTokens, 'maxTokens') &&
       isValidGenerationConfigParam(topK, 'topK') &&
@@ -1162,6 +1194,8 @@ const BotKbEditPage: React.FC = () => {
     conversationQuickStarters,
     isToolValid,
     isValidGenerationConfigParam,
+    budgetTokens,
+    isValidBudgetTokens,
     maxTokens,
     topK,
     topP,
@@ -1215,6 +1249,9 @@ const BotKbEditPage: React.FC = () => {
         topK,
         topP,
         stopSequences: stopSequences.split(','),
+        reasoningParams: {
+          budgetTokens,
+        },
       },
       knowledge: {
         sourceUrls: urls.filter((s) => s !== ''),
@@ -1291,6 +1328,7 @@ const BotKbEditPage: React.FC = () => {
     topK,
     topP,
     stopSequences,
+    budgetTokens,
     searchParams,
     urls,
     s3Urls,
@@ -1359,6 +1397,9 @@ const BotKbEditPage: React.FC = () => {
           topK,
           topP,
           stopSequences: stopSequences.split(','),
+          reasoningParams: {
+            budgetTokens,
+          },
         },
         knowledge: {
           sourceUrls: urls.filter((s) => s !== ''),
@@ -1439,6 +1480,7 @@ const BotKbEditPage: React.FC = () => {
     topK,
     topP,
     stopSequences,
+    budgetTokens,
     searchParams,
     urls,
     s3Urls,
@@ -1976,6 +2018,8 @@ const BotKbEditPage: React.FC = () => {
                   setMaxTokens={setMaxTokens}
                   stopSequences={stopSequences}
                   setStopSequences={setStopSequences}
+                  budgetTokens={budgetTokens}
+                  setBudgetTokens={setBudgetTokens}
                   isLoading={isLoading}
                   errorMessages={errorMessages}
                 />
