@@ -2,8 +2,7 @@ import logging
 from typing import Callable
 
 from app.agents.tools.agent_tool import ToolRunResult
-from app.agents.tools.knowledge import create_knowledge_tool
-from app.agents.utils import get_tool_by_name
+from app.agents.utils import get_tools
 from app.bedrock import call_converse_api, compose_args_for_converse_api
 from app.prompt import build_rag_prompt, get_prompt_to_cite_tool_results
 from app.repositories.conversation import (
@@ -236,11 +235,8 @@ def chat(
 ) -> tuple[ConversationModel, MessageModel]:
     user_msg_id, conversation, bot = prepare_conversation(user_id, chat_input)
 
-    tools = (
-        {t.name: get_tool_by_name(t.name) for t in bot.agent.tools}
-        if bot and bot.is_agent_enabled()
-        else {}
-    )
+    tools = get_tools(bot)
+
     display_citation = bot is not None and bot.display_retrieved_chunks
 
     message_map = conversation.message_map
@@ -258,12 +254,6 @@ def chat(
     search_results: list[SearchResult] = []
     if bot is not None:
         if bot.is_agent_enabled():
-            # If it have a knowledge base, always process it in agent mode
-            if bot.has_knowledge():
-                # Add knowledge tool
-                knowledge_tool = create_knowledge_tool(bot=bot)
-                tools[knowledge_tool.name] = knowledge_tool
-
             if display_citation:
                 instructions.append(
                     get_prompt_to_cite_tool_results(

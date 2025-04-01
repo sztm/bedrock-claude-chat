@@ -21,10 +21,9 @@ from app.routes.schemas.bot import (
     BotSummaryOutput,
     BotSwitchVisibilityInput,
     ConversationQuickStarter,
-    FirecrawlConfig,
     GenerationParams,
     Knowledge,
-    PlainTool,
+    Tool,
 )
 from app.routes.schemas.conversation import type_model_name
 from app.usecases.bot import (
@@ -187,11 +186,8 @@ def delete_bot_uploaded_file(request: Request, bot_id: str, filename: str):
     remove_uploaded_file(current_user.id, bot_id, filename)
 
 
-@router.get("/bot/{bot_id}/agent/available-tools", response_model=list[PlainTool])
+@router.get("/bot/{bot_id}/agent/available-tools", response_model=list[Tool])
 def get_bot_available_tools(request: Request, bot_id: str):
     """Get available tools for bot"""
-    tools = fetch_available_agent_tools()
-    return [
-        PlainTool(tool_type="plain", name=tool.name, description=tool.description)
-        for tool in tools
-    ]
+    tools: list[Tool] = fetch_available_agent_tools()
+    return tools
