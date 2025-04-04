@@ -154,7 +154,12 @@ const useInputChatContentState = create<{
 const InputChatContent = forwardRef<HTMLElement, Props>(
   (props, focusInputRef) => {
     const { t } = useTranslation();
-    const { disabledImageUpload, model, acceptMediaType } = useModel();
+    const {
+      disabledImageUpload,
+      model,
+      acceptMediaType,
+      forceReasoningEnabled,
+    } = useModel();
 
     const extendedAcceptMediaType = useMemo(() => {
       return [...acceptMediaType, ...SUPPORTED_FILE_EXTENSIONS];
@@ -497,6 +502,7 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
                 <ButtonReasoning
                   disabled={props.isLoading || props.canContinue}
                   showReasoning={reasoningEnabled}
+                  forceReasoningEnabled={forceReasoningEnabled}
                   onToggleReasoning={() => onChangeReasoning(!reasoningEnabled)}
                 />
               )}

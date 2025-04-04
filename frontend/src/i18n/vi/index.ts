@@ -6,8 +6,7 @@ const translation = {
       },
     },
     app: {
-      name: 'Bedrock Claude Chat',
-      nameWithoutClaude: 'Bedrock Chat',
+      name: 'Bedrock Chat',
       inputMessage: 'Tôi có thể giúp gì cho bạn?',
       starredBots: 'Bot Yêu Thích',
       recentlyUsedBots: 'Bot Đã Dùng Gần Đây',
@@ -20,10 +19,6 @@ const translation = {
         label: 'Claude 3 (Haiku)',
         description:
           'Phiên bản trước được tối ưu hóa cho tốc độ và gọn nhẹ, cho phép phản hồi gần như tức thời.',
-      },
-      'claude-v3-sonnet': {
-        label: 'Claude 3 (Sonnet)',
-        description: 'Cân bằng giữa trí thông minh và tốc độ.',
       },
       'claude-v3.5-sonnet': {
         label: 'Claude 3.5 (Sonnet) v1',
