@@ -3,7 +3,6 @@ import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { BedrockChatStack } from "../lib/bedrock-chat-stack";
 import { BedrockRegionResourcesStack } from "../lib/bedrock-region-resources";
-import { FrontendWafStack } from "../lib/frontend-waf-stack";
 import { LogRetentionChecker } from "../rules/log-retention-checker";
 import { getBedrockChatParameters } from "../lib/utils/parameter-models";
 import { bedrockChatParams } from "../parameter";
@@ -27,22 +26,6 @@ const params = getBedrockChatParameters(
 
 const sepHyphen = params.envPrefix ? "-" : "";
 
-// WAF for frontend
-// 2023/9: Currently, the WAF for CloudFront needs to be created in the North America region (us-east-1), so the stacks are separated
-// https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-webacl.html
-const waf = new FrontendWafStack(
-  app,
-  `${params.envPrefix}${sepHyphen}FrontendWafStack`,
-  {
-    env: {
-      // account: process.env.CDK_DEFAULT_ACCOUNT,
-      region: "us-east-1",
-    },
-    envPrefix: params.envPrefix,
-    allowedIpV4AddressRanges: params.allowedIpV4AddressRanges,
-    allowedIpV6AddressRanges: params.allowedIpV6AddressRanges,
-  }
-);
 
 // The region of the LLM model called by the converse API and the region of Guardrail must be in the same region.
 // CustomBotStack contains Knowledge Bases is deployed in the same region as the LLM model, and source bucket must be in the same region as Knowledge Bases.
@@ -72,7 +55,6 @@ const chat = new BedrockChatStack(
     envPrefix: params.envPrefix,
     crossRegionReferences: true,
     bedrockRegion: params.bedrockRegion,
-    webAclId: waf.webAclArn.value,
     enableIpV6: waf.ipV6Enabled,
     identityProviders: params.identityProviders,
     userPoolDomainPrefix: params.userPoolDomainPrefix,
