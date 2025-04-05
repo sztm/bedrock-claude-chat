@@ -227,17 +227,6 @@ export class BedrockChatStack extends cdk.Stack {
       useStandbyReplicas: props.useStandbyReplicas,
     });
 
-    // WebAcl for published API
-    const webAclForPublishedApi = new WebAclForPublishedApi(
-      this,
-      "WebAclForPublishedApi",
-      {
-        envPrefix: props.envPrefix,
-        allowedIpV4AddressRanges: props.publishedApiAllowedIpV4AddressRanges,
-        allowedIpV6AddressRanges: props.publishedApiAllowedIpV6AddressRanges,
-      }
-    );
-
     new CfnOutput(this, "DocumentBucketName", {
       value: props.documentBucket.bucketName,
     });
@@ -246,10 +235,6 @@ export class BedrockChatStack extends cdk.Stack {
     });
 
     // Outputs for API publication
-    new CfnOutput(this, "PublishedApiWebAclArn", {
-      value: webAclForPublishedApi.webAclArn,
-      exportName: `${props.envPrefix}${sepHyphen}PublishedApiWebAclArn`,
-    });
     new CfnOutput(this, "ConversationTableName", {
       value: database.table.tableName,
       exportName: `${props.envPrefix}${sepHyphen}BedrockClaudeChatConversationTableName`,
