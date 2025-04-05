@@ -55,7 +55,7 @@ const chat = new BedrockChatStack(
     envPrefix: params.envPrefix,
     crossRegionReferences: true,
     bedrockRegion: params.bedrockRegion,
-    enableIpV6: waf.ipV6Enabled,
+    enableIpV6: true,
     identityProviders: params.identityProviders,
     userPoolDomainPrefix: params.userPoolDomainPrefix,
     publishedApiAllowedIpV4AddressRanges:
@@ -73,7 +73,6 @@ const chat = new BedrockChatStack(
     hostedZoneId: params.hostedZoneId,
   }
 );
-chat.addDependency(waf);
 chat.addDependency(bedrockRegionResources);
 
 cdk.Aspects.of(chat).add(new LogRetentionChecker());
