@@ -28,7 +28,6 @@ export interface BedrockChatStackProps extends StackProps {
   readonly envName: string;
   readonly envPrefix: string;
   readonly bedrockRegion: string;
-  readonly webAclId: string;
   readonly identityProviders: TIdentityProvider[];
   readonly userPoolDomainPrefix: string;
   readonly publishedApiAllowedIpV4AddressRanges: string[];
@@ -131,7 +130,6 @@ export class BedrockChatStack extends cdk.Stack {
 
     const frontend = new Frontend(this, "Frontend", {
       accessLogBucket,
-      webAclId: props.webAclId,
       enableIpV6: props.enableIpV6,
       alternateDomainName: props.alternateDomainName,
       hostedZoneId: props.hostedZoneId,
