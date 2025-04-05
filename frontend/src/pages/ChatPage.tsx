@@ -537,7 +537,7 @@ const ChatPage: React.FC = () => {
                 <>
                   {messages?.map((message, idx, array) => (
                     <div
-                      key={idx}
+                      key={message.id}
                       className={`${
                         message.role === 'assistant'
                           ? 'bg-aws-squid-ink-light/5 dark:bg-aws-squid-ink-dark/35'
