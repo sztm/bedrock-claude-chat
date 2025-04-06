@@ -1,7 +1,6 @@
 import type { Story, StoryDefault } from '@ladle/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ChatListDrawer from './ChatListDrawer';
-import { BotListItem } from '../@types/bot';
 import { ConversationMeta } from '../@types/conversation';
 
 const conversations: ConversationMeta[] = [
@@ -14,32 +13,7 @@ const conversations: ConversationMeta[] = [
     botId: '1',
   },
 ];
-const bots: BotListItem[] = [
-  {
-    id: '1',
-    title: 'Bot 1',
-    description: 'Bot 1',
-    createTime: new Date(),
-    lastUsedTime: new Date(),
-    isPublic: false,
-    isPinned: false,
-    owned: false,
-    syncStatus: 'SUCCEEDED',
-    available: true,
-  },
-  {
-    id: '2',
-    title: 'Bot 2',
-    description: 'Bot 2',
-    createTime: new Date(),
-    lastUsedTime: new Date(),
-    isPublic: true,
-    isPinned: true,
-    owned: true,
-    syncStatus: 'SUCCEEDED',
-    available: true,
-  },
-];
+
 
 export default {
   decorators: [
