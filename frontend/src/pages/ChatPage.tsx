@@ -25,7 +25,6 @@ import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
 import SwitchBedrockModel from '../components/SwitchBedrockModel';
 import useSnackbar from '../hooks/useSnackbar';
-import useBot from '../hooks/useBot';
 import useConversation from '../hooks/useConversation';
 import ButtonPopover from '../components/PopoverMenu';
 import PopoverItem from '../components/PopoverItem';
@@ -240,7 +239,6 @@ const ChatPage: React.FC = () => {
     }
   }, [messages, scrollToBottom, scrollToTop]);
 
-  const { updateMyBotStarred, updateSharedBotStarred } = useBot();
   const onClickBotEdit = useCallback(
     (botId: string) => {
       navigate(`/bot/edit/${botId}`);
@@ -262,16 +260,7 @@ const ChatPage: React.FC = () => {
       }
     );
 
-    try {
-      if (bot.owned) {
-        updateMyBotStarred(bot.id, isStarred);
-      } else {
-        updateSharedBotStarred(bot.id, isStarred);
-      }
-    } finally {
-      mutateBot();
-    }
-  }, [bot, mutateBot, updateMyBotStarred, updateSharedBotStarred]);
+  }, [bot, mutateBot]);
 
   const [copyLabel, setCopyLabel] = useState(t('bot.titleSubmenu.copyLink'));
   const onClickCopyUrl = useCallback(
