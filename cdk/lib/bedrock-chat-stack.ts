@@ -148,8 +148,6 @@ export class BedrockChatStack extends cdk.Stack {
       bedrockRegion: props.bedrockRegion,
       tableAccessRole: database.tableAccessRole,
       documentBucket: props.documentBucket,
-      apiPublishProject: apiPublishCodebuild.project,
-      bedrockCustomBotProject: bedrockCustomBotCodebuild.project,
       usageAnalysis,
       largeMessageBucket,
       enableBedrockCrossRegionInference:
