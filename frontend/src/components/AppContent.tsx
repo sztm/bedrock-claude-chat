@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import useDrawer from '../hooks/useDrawer';
 import useConversation from '../hooks/useConversation';
-import useBot from '../hooks/useBot';
 import useChat from '../hooks/useChat';
 import { usePageLabel, usePageTitlePathPattern } from '../routes';
 import useUser from '../hooks/useUser';

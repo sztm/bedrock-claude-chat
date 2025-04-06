@@ -14,19 +14,14 @@ import ButtonIcon from './ButtonIcon';
 import {
   PiChat,
   PiCheck,
-  PiCompass,
-  PiGlobe,
   PiNotePencil,
   PiPencilLine,
-  PiRobot,
-  PiShareNetwork,
   PiTrash,
   PiX,
 } from 'react-icons/pi';
 import { PiCircleNotch } from 'react-icons/pi';
 import LazyOutputText from './LazyOutputText';
 import { ConversationMeta } from '../@types/conversation';
-import { BotListItem } from '../@types/bot';
 import { isMobile } from 'react-device-detect';
 import useChat from '../hooks/useChat';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -34,7 +29,6 @@ import { useTranslation } from 'react-i18next';
 import Menu from './Menu';
 import DrawerItem from './DrawerItem';
 import ExpandableDrawerGroup from './ExpandableDrawerGroup';
-import { usePageLabel } from '../routes';
 import Toggle from '../components/Toggle.tsx';
 
 type Props = BaseProps & {
