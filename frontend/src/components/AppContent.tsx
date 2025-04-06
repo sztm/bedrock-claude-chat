@@ -31,7 +31,6 @@ const AppContent: React.FC<Props> = (props) => {
   const navigate = useNavigate();
   const { conversationId } = useParams();
   const { conversations, getTitle, updateTitle, deleteConversation, clearConversations: clear } = useConversation();
-  const { starredBots, recentlyUsedUnsterredBots } = useBot();
   const { newChat, isGeneratedTitle } = useChat();
   const { isConversationOrNewChat, pathPattern } = usePageTitlePathPattern();
   const { isAdmin } = useUser();
@@ -86,8 +85,6 @@ const AppContent: React.FC<Props> = (props) => {
       <ChatListDrawer
         isAdmin={isAdmin}
         conversations={conversations}
-        starredBots={starredBots}
-        recentlyUsedUnsterredBots={recentlyUsedUnsterredBots}
         updateConversationTitle={async (conversationId, title) => {
           await updateTitle(conversationId, title);
         }}
