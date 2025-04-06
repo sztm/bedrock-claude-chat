@@ -14,19 +14,14 @@ import ButtonIcon from './ButtonIcon';
 import {
   PiChat,
   PiCheck,
-  PiCompass,
-  PiGlobe,
   PiNotePencil,
   PiPencilLine,
-  PiRobot,
-  PiShareNetwork,
   PiTrash,
   PiX,
 } from 'react-icons/pi';
 import { PiCircleNotch } from 'react-icons/pi';
 import LazyOutputText from './LazyOutputText';
 import { ConversationMeta } from '../@types/conversation';
-import { BotListItem } from '../@types/bot';
 import { isMobile } from 'react-device-detect';
 import useChat from '../hooks/useChat';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -34,14 +29,11 @@ import { useTranslation } from 'react-i18next';
 import Menu from './Menu';
 import DrawerItem from './DrawerItem';
 import ExpandableDrawerGroup from './ExpandableDrawerGroup';
-import { usePageLabel } from '../routes';
 import Toggle from '../components/Toggle.tsx';
 
 type Props = BaseProps & {
   isAdmin: boolean;
   conversations?: ConversationMeta[];
-  starredBots?: BotListItem[];
-  recentlyUsedUnsterredBots?: BotListItem[];
   updateConversationTitle: (conversationId: string, title: string) => Promise<void>;
   onSignOut: () => void;
   onDeleteConversation: (conversation: ConversationMeta) => void;
@@ -190,9 +182,8 @@ const Item: React.FC<ItemProps> = (props) => {
 
 const ChatListDrawer: React.FC<Props> = (props) => {
   const { t } = useTranslation();
-  const { getPageLabel } = usePageLabel();
   const { opened, switchOpen } = useDrawer();
-  const { conversations, starredBots, recentlyUsedUnsterredBots } = props;
+  const { conversations } = props;
 
   const [prevConversations, setPrevConversations] =
     useState<typeof conversations>();
@@ -200,8 +191,7 @@ const ChatListDrawer: React.FC<Props> = (props) => {
   // If you want to add a theme, change the type from boolean to string and change the UI from toggle to pulldown.
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const { newChat, conversationId } = useChat();
-  const { botId } = useParams();
+  const { newChat } = useChat();
 
   const [theme, setTheme] = useLocalStorage(
     'theme',
@@ -238,15 +228,6 @@ const ChatListDrawer: React.FC<Props> = (props) => {
     closeSamllDrawer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onClickNewBotChat = useCallback(
-    () => {
-      newChat();
-      closeSamllDrawer();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   const changeTheme = (isDarkTheme: boolean) => {
     setIsDarkTheme(isDarkTheme);
@@ -302,65 +283,6 @@ const ChatListDrawer: React.FC<Props> = (props) => {
               onClick={onClickNewChat}
               labelComponent={t('button.newChat')}
             />
-            <DrawerItem
-              isActive={false}
-              icon={<PiCompass />}
-              to="/bot/explore"
-              labelComponent={getPageLabel('/bot/explore')}
-              onClick={closeSamllDrawer}
-            />
-            {props.isAdmin && (
-              <ExpandableDrawerGroup
-                label={t('app.adminConsoles')}
-                className="border-t pt-1">
-                <DrawerItem
-                  isActive={false}
-                  icon={<PiShareNetwork />}
-                  to="/admin/shared-bot-analytics"
-                  labelComponent={getPageLabel('/admin/shared-bot-analytics')}
-                  onClick={closeSamllDrawer}
-                />
-                <DrawerItem
-                  isActive={false}
-                  icon={<PiGlobe />}
-                  to="/admin/api-management"
-                  labelComponent={getPageLabel('/admin/api-management')}
-                  onClick={closeSamllDrawer}
-                />
-              </ExpandableDrawerGroup>
-            )}
-
-            <ExpandableDrawerGroup
-              label={t('app.starredBots')}
-              className="border-t pt-1">
-              {starredBots?.map((bot) => (
-                <DrawerItem
-                  key={bot.id}
-                  isActive={botId === bot.id && !conversationId}
-                  to={`/bot/${bot.id}`}
-                  icon={<PiRobot />}
-                  labelComponent={bot.title}
-                  onClick={onClickNewBotChat}
-                />
-              ))}
-            </ExpandableDrawerGroup>
-
-            <ExpandableDrawerGroup
-              label={t('app.recentlyUsedBots')}
-              className="border-t pt-1">
-              {recentlyUsedUnsterredBots
-                ?.slice(0, 3)
-                .map((bot) => (
-                  <DrawerItem
-                    key={bot.id}
-                    isActive={false}
-                    to={`/bot/${bot.id}`}
-                    icon={<PiRobot />}
-                    labelComponent={bot.title}
-                    onClick={onClickNewBotChat}
-                  />
-                ))}
-            </ExpandableDrawerGroup>
 
             <ExpandableDrawerGroup
               label={t('app.conversationHistory')}
