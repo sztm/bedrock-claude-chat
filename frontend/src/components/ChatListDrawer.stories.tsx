@@ -63,8 +63,6 @@ export const Admin: Story = () => {
     <ChatListDrawer
       isAdmin={true}
       conversations={conversations}
-      starredBots={bots.filter((bot) => bot.isPinned)}
-      recentlyUsedUnsterredBots={bots.filter((bot) => !bot.isPinned)}
       updateConversationTitle={async () => {}}
       onSignOut={() => {}}
       onDeleteConversation={() => {}}
@@ -79,8 +77,6 @@ export const NonAdmin: Story = () => {
     <ChatListDrawer
       isAdmin={false}
       conversations={conversations}
-      starredBots={bots.filter((bot) => bot.isPinned)}
-      recentlyUsedUnsterredBots={bots.filter((bot) => !bot.isPinned)}
       updateConversationTitle={async () => {}}
       onSignOut={() => {}}
       onDeleteConversation={() => {}}
