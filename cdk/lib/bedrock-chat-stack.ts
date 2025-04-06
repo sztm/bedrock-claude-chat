@@ -14,7 +14,6 @@ import { Database } from "./constructs/database";
 import { Frontend } from "./constructs/frontend";
 import { WebSocket } from "./constructs/websocket";
 import * as cdk from "aws-cdk-lib";
-import { Embedding } from "./constructs/embedding";
 import { UsageAnalysis } from "./constructs/usage-analysis";
 import { TIdentityProvider, identityProvider } from "./utils/identity-provider";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
@@ -189,15 +188,6 @@ export class BedrockChatStack extends cdk.Stack {
       ],
       allowedHeaders: ["*"],
       maxAge: 3000,
-    });
-
-    const embedding = new Embedding(this, "Embedding", {
-      bedrockRegion: props.bedrockRegion,
-      database: database.table,
-      tableAccessRole: database.tableAccessRole,
-      documentBucket: props.documentBucket,
-      bedrockCustomBotProject: bedrockCustomBotCodebuild.project,
-      useStandbyReplicas: props.useStandbyReplicas,
     });
 
     new CfnOutput(this, "DocumentBucketName", {
