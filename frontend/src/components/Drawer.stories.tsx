@@ -1,7 +1,6 @@
 import type { Story, StoryDefault } from '@ladle/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ChatListDrawer from './Drawer';
-import { BotListItem } from '../@types/bot';
 import { ConversationMeta } from '../@types/conversation';
 
 const conversations: ConversationMeta[] = [
@@ -12,34 +11,6 @@ const conversations: ConversationMeta[] = [
     lastMessageId: '',
     model: 'claude-v3.5-sonnet',
     botId: '1',
-  },
-];
-const bots: BotListItem[] = [
-  {
-    id: '1',
-    title: 'Bot 1',
-    description: 'Bot 1',
-    createTime: new Date(),
-    lastUsedTime: new Date(),
-    isStarred: false,
-    owned: false,
-    syncStatus: 'SUCCEEDED',
-    available: true,
-    sharedScope: 'private',
-    sharedStatus: '',
-  },
-  {
-    id: '2',
-    title: 'Bot 2',
-    description: 'Bot 2',
-    createTime: new Date(),
-    lastUsedTime: new Date(),
-    isStarred: true,
-    owned: true,
-    syncStatus: 'SUCCEEDED',
-    available: true,
-    sharedScope: 'private',
-    sharedStatus: '',
   },
 ];
 
@@ -65,8 +36,6 @@ export const Admin: Story = () => {
     <ChatListDrawer
       isAdmin={true}
       conversations={conversations}
-      starredBots={bots.filter((bot) => bot.isStarred)}
-      recentlyUsedUnstarredBots={bots.filter((bot) => !bot.isStarred)}
       updateConversationTitle={async () => {}}
       onSignOut={() => {}}
       onDeleteConversation={() => {}}
@@ -82,8 +51,6 @@ export const NonAdmin: Story = () => {
     <ChatListDrawer
       isAdmin={false}
       conversations={conversations}
-      starredBots={bots.filter((bot) => bot.isStarred)}
-      recentlyUsedUnstarredBots={bots.filter((bot) => !bot.isStarred)}
       updateConversationTitle={async () => {}}
       onSignOut={() => {}}
       onDeleteConversation={() => {}}
