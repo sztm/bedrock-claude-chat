@@ -14,16 +14,12 @@ import { Database } from "./constructs/database";
 import { Frontend } from "./constructs/frontend";
 import { WebSocket } from "./constructs/websocket";
 import * as cdk from "aws-cdk-lib";
-import { Embedding } from "./constructs/embedding";
 import { UsageAnalysis } from "./constructs/usage-analysis";
 import { TIdentityProvider, identityProvider } from "./utils/identity-provider";
-import { ApiPublishCodebuild } from "./constructs/api-publish-codebuild";
-import { WebAclForPublishedApi } from "./constructs/webacl-for-published-api";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as path from "path";
-import { BedrockCustomBotCodebuild } from "./constructs/bedrock-custom-bot-codebuild";
 import { BotStore, Language } from "./constructs/bot-store";
 import { Duration } from "aws-cdk-lib";
 
@@ -31,7 +27,6 @@ export interface BedrockChatStackProps extends StackProps {
   readonly envName: string;
   readonly envPrefix: string;
   readonly bedrockRegion: string;
-  readonly webAclId: string;
   readonly identityProviders: TIdentityProvider[];
   readonly userPoolDomainPrefix: string;
   readonly publishedApiAllowedIpV4AddressRanges: string[];
@@ -114,32 +109,9 @@ export class BedrockChatStack extends cdk.Stack {
       destinationBucket: sourceBucket,
       logRetention: logs.RetentionDays.THREE_MONTHS,
     });
-    // CodeBuild used for api publication
-    const apiPublishCodebuild = new ApiPublishCodebuild(
-      this,
-      "ApiPublishCodebuild",
-      {
-        sourceBucket,
-        envName: props.envName,
-        envPrefix: props.envPrefix,
-        bedrockRegion: props.bedrockRegion,
-      }
-    );
-    // CodeBuild used for KnowledgeBase
-    const bedrockCustomBotCodebuild = new BedrockCustomBotCodebuild(
-      this,
-      "BedrockKnowledgeBaseCodebuild",
-      {
-        sourceBucket,
-        envName: props.envName,
-        envPrefix: props.envPrefix,
-        bedrockRegion: props.bedrockRegion,
-      }
-    );
 
     const frontend = new Frontend(this, "Frontend", {
       accessLogBucket,
-      webAclId: props.webAclId,
       enableIpV6: props.enableIpV6,
       alternateDomainName: props.alternateDomainName,
       hostedZoneId: props.hostedZoneId,
@@ -195,8 +167,6 @@ export class BedrockChatStack extends cdk.Stack {
       auth,
       bedrockRegion: props.bedrockRegion,
       documentBucket: props.documentBucket,
-      apiPublishProject: apiPublishCodebuild.project,
-      bedrockCustomBotProject: bedrockCustomBotCodebuild.project,
       usageAnalysis,
       largeMessageBucket,
       enableBedrockCrossRegionInference:
@@ -273,52 +243,11 @@ export class BedrockChatStack extends cdk.Stack {
       maxAge: 3000,
     });
 
-    const embedding = new Embedding(this, "Embedding", {
-      bedrockRegion: props.bedrockRegion,
-      database,
-      documentBucket: props.documentBucket,
-      bedrockCustomBotProject: bedrockCustomBotCodebuild.project,
-      enableRagReplicas: props.enableRagReplicas,
-    });
-
-    // WebAcl for published API
-    const webAclForPublishedApi = new WebAclForPublishedApi(
-      this,
-      "WebAclForPublishedApi",
-      {
-        envPrefix: props.envPrefix,
-        allowedIpV4AddressRanges: props.publishedApiAllowedIpV4AddressRanges,
-        allowedIpV6AddressRanges: props.publishedApiAllowedIpV6AddressRanges,
-      }
-    );
-
     new CfnOutput(this, "DocumentBucketName", {
       value: props.documentBucket.bucketName,
     });
     new CfnOutput(this, "FrontendURL", {
       value: frontend.getOrigin(),
-    });
-
-    // Outputs for API publication
-    new CfnOutput(this, "PublishedApiWebAclArn", {
-      value: webAclForPublishedApi.webAclArn,
-      exportName: `${props.envPrefix}${sepHyphen}PublishedApiWebAclArn`,
-    });
-    new CfnOutput(this, "ConversationTableNameV3", {
-      value: database.conversationTable.tableName,
-      exportName: `${props.envPrefix}${sepHyphen}BedrockClaudeChatConversationTableName`,
-    });
-    new CfnOutput(this, "BotTableNameV3", {
-      value: database.botTable.tableName,
-      exportName: `${props.envPrefix}${sepHyphen}BedrockClaudeChatBotTableNameV3`,
-    });
-    new CfnOutput(this, "TableAccessRoleArn", {
-      value: database.tableAccessRole.roleArn,
-      exportName: `${props.envPrefix}${sepHyphen}BedrockClaudeChatTableAccessRoleArn`,
-    });
-    new CfnOutput(this, "LargeMessageBucketName", {
-      value: largeMessageBucket.bucketName,
-      exportName: `${props.envPrefix}${sepHyphen}BedrockClaudeChatLargeMessageBucketName`,
     });
   }
 }
