@@ -21,7 +21,6 @@ import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
 import SwitchBedrockModel from '../components/SwitchBedrockModel';
 import useSnackbar from '../hooks/useSnackbar';
-import useBot from '../hooks/useBot';
 import useConversation from '../hooks/useConversation';
 import { ActiveModels, BotSummary } from '../@types/bot';
 import IconPinnedBot from '../components/IconPinnedBot.tsx';
@@ -52,7 +51,6 @@ import useLoginUser from '../hooks/useLoginUser';
 import useBotPinning from '../hooks/useBotPinning';
 import Skeleton from '../components/Skeleton.tsx';
 import { twMerge } from 'tailwind-merge';
-import ButtonStar from '../components/ButtonStar.tsx';
 import MenuBot from '../components/MenuBot.tsx';
 
 // Default model activation settings when no bot is selected
@@ -246,32 +244,12 @@ const ChatPage: React.FC = () => {
     }
   }, [messages, scrollToBottom, scrollToTop]);
 
-  const { updateStarred } = useBot();
   const onClickBotEdit = useCallback(
     (botId: string) => {
       navigate(`/bot/edit/${botId}`);
     },
     [navigate]
   );
-
-  const onClickStar = useCallback(async () => {
-    if (!bot) {
-      return;
-    }
-    const isStarred = !bot.isStarred;
-    mutateBot(
-      produce(bot, (draft) => {
-        draft.isStarred = isStarred;
-      }),
-      {
-        revalidate: false,
-      }
-    );
-
-    updateStarred(bot.id, isStarred).finally(() => {
-      mutateBot();
-    });
-  }, [bot, mutateBot, updateStarred]);
 
   const onClickCopyUrl = useCallback((botId: string) => {
     copyBotUrl(botId);
@@ -515,11 +493,6 @@ const ChatPage: React.FC = () => {
                       onClickError={onClickSyncError}
                     />
                   )}
-
-                  <ButtonStar
-                    isStarred={bot?.isStarred ?? false}
-                    onClick={onClickStar}
-                  />
 
                   <MenuBot
                     className="mx-1"
