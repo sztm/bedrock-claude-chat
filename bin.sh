@@ -20,24 +20,6 @@ echo "  🌟 Let's begin your v3.x journey — the future awaits!               
 echo "==========================================================================="
 echo ""
 
-while true; do
-    read -p "Are you ready to explore the world of v3.x? (y/N): " answer
-    case ${answer:0:1} in
-        y|Y )
-            echo "Buckle up! Starting deployment for v3.x..."
-            break
-            ;;
-        n|N )
-            echo "Whoa, hold on! This script is only for v3.x users. Please refer to the migration guide if you're coming from an older version."
-            exit 1
-            ;;
-        * )
-            echo "Let's keep it simple. Please enter y or n."
-            ;;
-    esac
-done
-
-
 # Default parameters
 ALLOW_SELF_REGISTER="true"
 ENABLE_LAMBDA_SNAPSTART="false"
