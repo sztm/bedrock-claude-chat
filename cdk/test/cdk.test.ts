@@ -40,7 +40,6 @@ describe("Bedrock Chat Stack Test", () => {
         envPrefix: "test-",
         bedrockRegion: "us-east-1",
         crossRegionReferences: true,
-        webAclId: "",
         identityProviders: [
           {
             secretName: "MyTestSecret",
@@ -115,7 +114,6 @@ describe("Bedrock Chat Stack Test", () => {
         envPrefix: "test-",
         bedrockRegion: "us-east-1",
         crossRegionReferences: true,
-        webAclId: "",
         identityProviders: [
           {
             secretName: "MyOidcTestSecret",
@@ -187,7 +185,6 @@ describe("Bedrock Chat Stack Test", () => {
       envPrefix: "test-",
       bedrockRegion: "us-east-1",
       crossRegionReferences: true,
-      webAclId: "",
       identityProviders: [],
       userPoolDomainPrefix: "",
       publishedApiAllowedIpV4AddressRanges: [""],
@@ -232,7 +229,6 @@ describe("Bedrock Chat Stack Test", () => {
       envPrefix: "test-",
       bedrockRegion: "us-east-1",
       crossRegionReferences: true,
-      webAclId: "",
       identityProviders: [],
       userPoolDomainPrefix: "",
       publishedApiAllowedIpV4AddressRanges: [""],
@@ -311,7 +307,6 @@ describe("Bedrock Chat Stack Test", () => {
       envPrefix: "test-",
       bedrockRegion: "us-east-1",
       crossRegionReferences: true,
-      webAclId: "",
       identityProviders: [],
       userPoolDomainPrefix: "",
       publishedApiAllowedIpV4AddressRanges: [""],
@@ -370,7 +365,6 @@ describe("Bedrock Chat Stack Test", () => {
       envPrefix: "test-",
       bedrockRegion: "us-east-1",
       crossRegionReferences: true,
-      webAclId: "",
       identityProviders: [],
       userPoolDomainPrefix: "",
       publishedApiAllowedIpV4AddressRanges: [""],
@@ -449,7 +443,6 @@ describe("Bedrock Chat Stack Test", () => {
       envPrefix: "test-",
       bedrockRegion: "us-east-1",
       crossRegionReferences: true,
-      webAclId: "",
       identityProviders: [],
       userPoolDomainPrefix: "",
       publishedApiAllowedIpV4AddressRanges: [""],

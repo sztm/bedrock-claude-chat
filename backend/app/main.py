@@ -35,19 +35,9 @@ is_published_api = PUBLISHED_API_ID is not None
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-if not is_published_api:
-    openapi_tags = [
-        {"name": "conversation", "description": "Conversation API"},
-        {"name": "bot", "description": "Bot API"},
-        {"name": "api_publication", "description": "API Publication API"},
-        {"name": "admin", "description": "Admin API"},
-        {"name": "user", "description": "User API (cognito)"},
-        {"name": "bot_store", "description": "Bot Store API"},
-    ]
-    title = "Bedrock Chat"
-else:
-    openapi_tags = [{"name": "published_api", "description": "Published API"}]
-    title = "Bedrock Chat Published API"
+
+openapi_tags = [{"name": "published_api", "description": "Published API"}]
+title = "Bedrock Chat Published API"
 
 
 app = FastAPI(
@@ -56,15 +46,7 @@ app = FastAPI(
 )
 
 
-if not is_published_api:
-    app.include_router(conversation_router)
-    app.include_router(bot_router)
-    app.include_router(api_publication_router)
-    app.include_router(admin_router)
-    app.include_router(user_router)
-    app.include_router(bot_store_router)
-else:
-    app.include_router(published_api_router)
+app.include_router(published_api_router)
 
 
 app.add_middleware(
@@ -100,17 +82,11 @@ app.add_exception_handler(Exception, error_handler_factory(500))
 @app.middleware("http")
 def add_current_user_to_request(request: Request, call_next: ASGIApp):
     if is_running_on_lambda():
-        if not is_published_api:
-            authorization = request.headers.get("Authorization")
-            if authorization:
-                token_str = authorization.split(" ")[1]
-                token = HTTPAuthorizationCredentials(
-                    scheme="Bearer", credentials=token_str
-                )
-                request.state.current_user = get_current_user(token)
-        else:
-            assert PUBLISHED_API_ID is not None, "PUBLISHED_API_ID is not set."
-            request.state.current_user = User.from_published_api_id(PUBLISHED_API_ID)
+        authorization = request.headers.get("Authorization")
+        if authorization:
+            token_str = authorization.split(" ")[1]
+            token = HTTPAuthorizationCredentials(scheme="Bearer", credentials=token_str)
+            request.state.current_user = get_current_user(token)
     else:
         authorization = request.headers.get("Authorization")
         if authorization:

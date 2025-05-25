@@ -21,7 +21,6 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 
 export interface FrontendProps {
-  readonly webAclId: string;
   readonly accessLogBucket?: IBucket;
   readonly enableIpV6: boolean;
   /** 
@@ -102,7 +101,6 @@ export class Frontend extends Construct {
         logBucket: props.accessLogBucket,
         logFilePrefix: "Frontend/",
       }),
-      webAclId: props.webAclId,
       enableIpv6: props.enableIpV6,
     });
 
