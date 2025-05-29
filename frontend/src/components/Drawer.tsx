@@ -16,15 +16,19 @@ import {
   PiChat,
   PiChatCenteredDotsDuotone,
   PiCheck,
+  PiCompass,
+  PiListBullets,
   PiNotePencil,
   PiPencilLine,
   PiPlugs,
   PiPresentationChart,
+  PiRobot,
   PiTrash,
   PiX,
 } from 'react-icons/pi';
 import LazyOutputText from './LazyOutputText';
 import { ConversationMeta } from '../@types/conversation';
+import { BotListItem } from '../@types/bot';
 import { isMobile } from 'react-device-detect';
 import useChat from '../hooks/useChat';
 import { useTranslation } from 'react-i18next';
@@ -35,10 +39,14 @@ import { usePageLabel } from '../routes';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button';
 import Skeleton from './Skeleton';
+import { isPinnedBot } from '../utils/BotUtils';
+import IconPinnedBot from './IconPinnedBot';
 
 type Props = BaseProps & {
   isAdmin: boolean;
   conversations?: ConversationMeta[];
+  starredBots?: BotListItem[];
+  recentlyUsedUnstarredBots?: BotListItem[];
   updateConversationTitle: (
     conversationId: string,
     title: string
@@ -194,7 +202,7 @@ const Drawer: React.FC<Props> = (props) => {
   const navigate = useNavigate();
   const { getPageLabel } = usePageLabel();
   const { opened, switchOpen, drawerOptions } = useDrawer();
-  const { conversations } = props;
+  const { conversations, starredBots, recentlyUsedUnstarredBots } = props;
 
   const location = useLocation();
 
@@ -202,7 +210,8 @@ const Drawer: React.FC<Props> = (props) => {
     useState<typeof conversations>();
   const [generateTitleIndex, setGenerateTitleIndex] = useState(-1);
 
-  const { newChat } = useChat();
+  const { newChat, conversationId } = useChat();
+  const { botId } = useParams();
 
   useEffect(() => {
     setPrevConversations(conversations);
@@ -228,6 +237,15 @@ const Drawer: React.FC<Props> = (props) => {
     closeSmallDrawer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const onClickNewBotChat = useCallback(
+    () => {
+      newChat();
+      closeSmallDrawer();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const smallDrawer = useRef<HTMLDivElement>(null);
 
@@ -277,6 +295,110 @@ const Drawer: React.FC<Props> = (props) => {
                 onClick={onClickNewChat}
                 labelComponent={t('button.newChat')}
               />
+              <DrawerItem
+                isActive={false}
+                icon={<PiListBullets />}
+                to="/bot/my"
+                labelComponent={getPageLabel('/bot/my')}
+                onClick={closeSmallDrawer}
+              />
+              <DrawerItem
+                isActive={false}
+                icon={<PiCompass />}
+                to="/bot/discover"
+                labelComponent={getPageLabel('/bot/discover')}
+                onClick={closeSmallDrawer}
+              />
+
+              <ExpandableDrawerGroup
+                label={t('app.starredBots')}
+                className="border-t bg-aws-squid-ink-light pt-1 dark:bg-aws-squid-ink-dark">
+                {starredBots === undefined && (
+                  <div className="flex flex-col gap-2 p-2">
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                  </div>
+                )}
+                {starredBots
+                  ?.slice(0, drawerOptions.displayCount.starredBots)
+                  .map((bot) => (
+                    <DrawerItem
+                      key={bot.id}
+                      isActive={botId === bot.id && !conversationId}
+                      to={`/bot/${bot.id}`}
+                      icon={
+                        isPinnedBot(bot.sharedStatus) ? (
+                          <IconPinnedBot showAlways />
+                        ) : (
+                          <PiRobot />
+                        )
+                      }
+                      labelComponent={bot.title}
+                      onClick={onClickNewBotChat}
+                    />
+                  ))}
+
+                {starredBots && starredBots.length > 15 && (
+                  <Button
+                    text
+                    rightIcon={<PiArrowRight />}
+                    className="w-full"
+                    onClick={() => {
+                      navigate('/bot/starred');
+                      closeSmallDrawer();
+                    }}>
+                    {t('bot.button.viewAll')}
+                  </Button>
+                )}
+              </ExpandableDrawerGroup>
+
+              <ExpandableDrawerGroup
+                label={t('app.recentlyUsedBots')}
+                className="border-t bg-aws-squid-ink-light pt-1 dark:bg-aws-squid-ink-dark ">
+                {recentlyUsedUnstarredBots === undefined && (
+                  <div className="flex flex-col gap-2 p-2">
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                    <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
+                  </div>
+                )}
+                {recentlyUsedUnstarredBots
+                  ?.slice(0, drawerOptions.displayCount.recentlyUsedBots)
+                  .map((bot) => (
+                    <DrawerItem
+                      key={bot.id}
+                      isActive={false}
+                      to={`/bot/${bot.id}`}
+                      icon={
+                        isPinnedBot(bot.sharedStatus) ? (
+                          <IconPinnedBot showAlways />
+                        ) : (
+                          <PiRobot />
+                        )
+                      }
+                      labelComponent={bot.title}
+                      onClick={onClickNewBotChat}
+                    />
+                  ))}
+
+                {recentlyUsedUnstarredBots && (
+                  <Button
+                    text
+                    rightIcon={<PiArrowRight />}
+                    className="w-full"
+                    onClick={() => {
+                      navigate('/bot/recently-used');
+                      closeSmallDrawer();
+                    }}>
+                    {t('bot.button.viewAll')}
+                  </Button>
+                )}
+              </ExpandableDrawerGroup>
 
               <ExpandableDrawerGroup
                 label={t('app.conversationHistory')}

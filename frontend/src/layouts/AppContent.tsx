@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import useDrawer from '../hooks/useDrawer';
 import useConversation from '../hooks/useConversation';
+import useBot from '../hooks/useBot';
 import useChat from '../hooks/useChat';
 import { usePageLabel, usePageTitlePathPattern } from '../routes';
 import useLoginUser from '../hooks/useLoginUser';
@@ -37,6 +38,7 @@ const AppContent: React.FC<Props> = (props) => {
     deleteConversation,
     clearConversations: clear,
   } = useConversation();
+  const { starredBots, recentlyUsedUnstarredBots } = useBot();
   const { newChat, isGeneratedTitle } = useChat();
   const { isConversationOrNewChat, pathPattern } = usePageTitlePathPattern();
   const { isAdmin } = useLoginUser();
@@ -91,6 +93,8 @@ const AppContent: React.FC<Props> = (props) => {
       <Drawer
         isAdmin={isAdmin}
         conversations={conversations}
+        starredBots={starredBots}
+        recentlyUsedUnstarredBots={recentlyUsedUnstarredBots}
         updateConversationTitle={async (conversationId, title) => {
           await updateTitle(conversationId, title);
         }}
