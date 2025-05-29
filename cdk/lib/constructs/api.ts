@@ -36,6 +36,8 @@ export interface ApiProps {
   readonly bedrockRegion: string;
   readonly documentBucket: IBucket;
   readonly largeMessageBucket: IBucket;
+  readonly apiPublishProject: codebuild.IProject;
+  readonly bedrockCustomBotProject: codebuild.IProject;
   readonly usageAnalysis?: UsageAnalysis;
   readonly enableBedrockCrossRegionInference: boolean;
   readonly enableLambdaSnapStart: boolean;
@@ -78,6 +80,16 @@ export class Api extends Construct {
     handlerRole.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
+        actions: ["codebuild:StartBuild"],
+        resources: [
+          props.apiPublishProject.projectArn,
+          props.bedrockCustomBotProject.projectArn,
+        ],
+      })
+    );
+    handlerRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
         actions: [
           "cloudformation:DescribeStacks",
           "cloudformation:DescribeStackEvents",
@@ -86,6 +98,16 @@ export class Api extends Construct {
           "cloudformation:DeleteStack",
         ],
         resources: [`*`],
+      })
+    );
+    handlerRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["codebuild:BatchGetBuilds"],
+        resources: [
+          props.apiPublishProject.projectArn,
+          props.bedrockCustomBotProject.projectArn,
+        ],
       })
     );
     handlerRole.addToPolicy(
@@ -230,6 +252,9 @@ export class Api extends Construct {
         TABLE_ACCESS_ROLE_ARN: tableAccessRole.roleArn,
         DOCUMENT_BUCKET: props.documentBucket.bucketName,
         LARGE_MESSAGE_BUCKET: props.largeMessageBucket.bucketName,
+        PUBLISH_API_CODEBUILD_PROJECT_NAME: props.apiPublishProject.projectName,
+        // KNOWLEDGE_BASE_CODEBUILD_PROJECT_NAME:
+        //   props.bedrockCustomBotProject.projectName,
         USAGE_ANALYSIS_DATABASE:
           props.usageAnalysis?.database.databaseName || "",
         USAGE_ANALYSIS_TABLE:
